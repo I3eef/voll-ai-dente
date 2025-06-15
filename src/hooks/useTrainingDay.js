@@ -1,6 +1,6 @@
-import { useEffect, useState, useCallback, useRef } from "react"; // Ensure useRef is imported
+import { useEffect, useState, useCallback, useRef } from "react";
 import { collection, getDocs, setDoc, doc, Timestamp, addDoc, deleteDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import { db, auth } from "../firebase"; // Import auth directly
 
 export function normalizeDate(dateInput) {
   const date = dateInput instanceof Date
@@ -40,6 +40,7 @@ export function useTrainingDay(initialDate) {
   }, [selectedDate]);
 
   useEffect(() => { fetchTrainingDays() }, [fetchTrainingDays]);
+
   useEffect(() => {
     setEditData(day.map(item=> ({
       ...item,
@@ -75,11 +76,19 @@ export function useTrainingDay(initialDate) {
     }
   };
 
-  const addNewTrainingDay = (currentUser) => {
+  const addNewTrainingDay = (userProp) => {
+    const firebaseAuthCurrentUser = auth.currentUser;
+
     const counter = newItemIdCounterRef.current;
     newItemIdCounterRef.current += 1;
     const tempId = `new-local-${counter}`;
-    const createdBy = currentUser || "Unknown User"; // Reverted to try displayName, then email
+    
+    // Prioritize displayName from auth.currentUser, then from prop, then email, then fallback
+    let createdBy = firebaseAuthCurrentUser?.displayName || 
+                    userProp?.displayName || 
+                    firebaseAuthCurrentUser?.email || 
+                    userProp?.email || 
+                    "Unknown User";
 
     setEditData(prev => [
       ...prev,
