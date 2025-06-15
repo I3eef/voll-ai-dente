@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react"; // Add useRef
 import { collection, getDocs, setDoc, doc, Timestamp } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -20,6 +20,7 @@ export function useTrainingDay(initialDate) {
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const newItemIdCounterRef = useRef(0); // Initialize counter ref
 
   const fetchTrainingDays = useCallback(async () => {
     setLoading(true); setError(null);
@@ -53,13 +54,16 @@ export function useTrainingDay(initialDate) {
         const raw = item.date instanceof Date
           ? item.date
           : item.date?.toDate?.() ?? new Date(item.date);
-        const payload = { ...item, date: Timestamp.fromDate(raw) };
-        if (item.id.startsWith("new-")) {
-          // create a new document with a proper firestore-generated ID
+        
+        if (item.id.startsWith("new-local-")) { // Updated prefix to check
           const newDocRef = doc(collection(db, "trainingDays"));
-          await setDoc(newDocRef, payload);
+          // Prepare payload, ensuring 'id' field will be the new Firestore ID
+          const { id: tempId, ...dataToSave } = item; 
+          const finalPayload = { ...dataToSave, date: Timestamp.fromDate(raw), id: newDocRef.id }; 
+          await setDoc(newDocRef, finalPayload);
         } else {
-          // update existing document
+          // For existing items, item.id is already the Firestore ID.
+          const payload = { ...item, date: Timestamp.fromDate(raw) }; 
           await setDoc(doc(db, "trainingDays", item.id), payload, { merge: true });
         }
       }
@@ -74,7 +78,10 @@ export function useTrainingDay(initialDate) {
   };
 
   const addNewTrainingDay = () => {
-    const tempId = `new-${Date.now()}-${Math.floor(Math.random()*10000)}`;
+    const counter = newItemIdCounterRef.current;
+    newItemIdCounterRef.current += 1;
+    const tempId = `new-local-${counter}`; // New robust temp ID format
+
     setEditData(prev => [
       ...prev,
       { id: tempId, date: selectedDate, createdBy: "", sections: [], notes: "" }
@@ -83,15 +90,10 @@ export function useTrainingDay(initialDate) {
   };
 
   return {
-    selectedDate,
-    setSelectedDate,
-    day,
-    editData,
-    setEditData,
-    editMode,
-    setEditMode,
-    loading,
-    error,
+    selectedDate, setSelectedDate,
+    day, editData, setEditData,
+    editMode, setEditMode,
+    loading, error,
     normalizeDate,
     saveTrainingDays,
     addNewTrainingDay

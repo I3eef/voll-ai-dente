@@ -1,0 +1,256 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f4f7f6;
+  color: #333;
+}
+
+.training-day-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  flex-wrap: wrap;
+}
+
+.controls label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.react-datepicker-wrapper input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+button {
+  padding: 10px 18px;
+  font-size: 0.95rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #cce0ff;
+  cursor: not-allowed;
+}
+
+.controls button:nth-of-type(2) { /* Edit/View button */
+  background-color: #6c757d;
+}
+.controls button:nth-of-type(2):hover {
+  background-color: #545b62;
+}
+
+.controls button:nth-of-type(3) { /* Save button */
+  background-color: #28a745;
+}
+.controls button:nth-of-type(3):hover {
+  background-color: #1e7e34;
+}
+
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 12px;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.training-day-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  background-color: #fdfdfd;
+}
+
+.training-day-form h2 {
+  margin-top: 0;
+  color: #007bff;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.training-day-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.training-day-form input[type="text"],
+.training-day-form textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: calc(100% - 22px); /* Account for padding and border */
+}
+
+.training-day-form input[type="text"]:read-only,
+.training-day-form textarea:read-only {
+  background-color: #e9ecef;
+  cursor: default;
+}
+
+.training-day-form textarea {
+  min-height: 60px;
+  resize: vertical;
+}
+
+.sections-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px;
+  border: 1px dashed #d1d1d1;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.sections-container > label { /* "Sections:" label */
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.section-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  border: 1px solid #e7e7e7;
+  border-radius: 4px;
+  background-color: #fff;
+  transition: all 0.3s ease-in-out; /* Added for smooth collapse */
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding-bottom: 10px; /* Add some padding */
+  border-bottom: 1px solid #f0f0f0; /* Separator for header */
+  margin-bottom: 10px; /* Space before content */
+}
+
+.section-header input[type="text"] {
+  flex-grow: 1;
+  margin-right: 10px;
+  border: none; /* Make title look less like an input when not editing */
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 5px 0; /* Adjust padding */
+}
+
+.section-header input[type="text"]:read-only {
+  background-color: transparent;
+}
+
+.section-header span { /* For the [+] [-] icon */
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #007bff;
+}
+
+.section-content {
+  /* Styles for the content area if needed, for now it will just show/hide */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.section-item.collapsed .section-content {
+  display: none;
+}
+
+.section-item.collapsed {
+  padding-bottom: 10px; /* Adjust padding when collapsed */
+  gap: 0; /* No gap when content is hidden */
+}
+
+.section-item.collapsed .section-header {
+  margin-bottom: 0; /* No margin when content is hidden */
+  border-bottom: none; /* No border when content is hidden */
+}
+
+.sections-container > button { /* Add Section button */
+  background-color: #17a2b8;
+  align-self: flex-start;
+}
+.sections-container > button:hover {
+  background-color: #117a8b;
+}
+
+p {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #666;
+  padding: 20px;
+}
+
+/* Login Form Specifics (if you have one with these classes) */
+.login-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.login-container h2 {
+  color: #333;
+  margin-bottom: 25px;
+}
+
+.login-container input[type="email"],
+.login-container input[type="password"] {
+  width: calc(100% - 24px); /* Account for padding and border */
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.login-container button {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.1rem;
+}
