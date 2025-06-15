@@ -179,6 +179,14 @@ button:disabled {
 
 .section-header input[type="text"]:read-only {
   background-color: transparent;
+  cursor: default; /* Ensure default cursor for read-only titles */
+}
+
+.section-header select {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  font-weight: bold;
 }
 
 .section-header span { /* For the [+] [-] icon */

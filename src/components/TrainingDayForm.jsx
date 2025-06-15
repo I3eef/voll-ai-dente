@@ -11,9 +11,10 @@ export default function TrainingDayForm({
   onSectionChange,
   onAddSection,
   onRemoveSection,
-  onDeleteTrainingDay // Add onDeleteTrainingDay to props
+  onDeleteTrainingDay
 }) {
-  const [collapsedSections, setCollapsedSections] = useState({}); // { "itemIdx-sectionIdx": true/false }
+  const [collapsedSections, setCollapsedSections] = useState({});
+  const sectionTitleOptions = ["WOD", "Warmup", "Mobility", "Skill", "Gymnastic", "Other"];
 
   const toggleSectionCollapse = (itemIdx, sectionIdx) => {
     const key = `${itemIdx}-${sectionIdx}`;
@@ -61,18 +62,34 @@ export default function TrainingDayForm({
               return (
                 <div key={sIdx} className={`section-item ${isCollapsed ? 'collapsed' : ''}`}>
                   <div className="section-header" onClick={() => toggleSectionCollapse(idx, sIdx)} style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px 0' }}>
-                    <input
-                      type="text"
-                      value={section.title || ""}
-                      onChange={e => {
-                        e.stopPropagation(); // Prevent toggle when editing title
-                        if (editMode) onSectionChange(idx, sIdx, "title", e.target.value);
-                      }}
-                      placeholder="Section Title"
-                      readOnly={!editMode}
-                      onClick={(e) => e.stopPropagation()} // Prevent toggle when clicking input itself
-                      style={{ flexGrow: 1, marginRight: '10px' }}
-                    />
+                    {editMode ? (
+                      <select
+                        value={section.title}
+                        onChange={e => {
+                          e.stopPropagation();
+                          onSectionChange(idx, sIdx, "title", e.target.value);
+                        }}
+                        onClick={(e) => e.stopPropagation()} // Prevent toggle when clicking select
+                        style={{ flexGrow: 1, marginRight: '10px', fontSize: '1.1rem', padding: '5px' }}
+                      >
+                        {sectionTitleOptions.map(option => (
+                          <option key={option} value={option}>{option}</option>
+                        ))}
+                        {!sectionTitleOptions.includes(section.title) && section.title !== "" && (
+                           <option key={section.title} value={section.title}>{section.title} (Custom)</option>
+                        )}
+                         {section.title === "" && (
+                           <option key="custom" value="">Select or type...</option>
+                        )}
+                      </select>
+                    ) : (
+                      <input
+                        type="text"
+                        value={section.title || ""}
+                        readOnly
+                        style={{ flexGrow: 1, marginRight: '10px', border: 'none', backgroundColor: 'transparent', fontSize: '1.1rem', fontWeight: 'bold' }}
+                      />
+                    )}
                     <span>{isCollapsed ? '[+]' : '[-]'}</span>
                   </div>
                   {!isCollapsed && (

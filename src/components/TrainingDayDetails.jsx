@@ -26,7 +26,7 @@ export default function TrainingDayDetails({ date }) {
   const onAddSection = i =>
     setEditData(d => d.map((it, idx) =>
       idx === i
-        ? { ...it, sections: [...it.sections, { title: "", content: "" }] }
+        ? { ...it, sections: [...it.sections, { title: "WOD", content: "" }] } // Default title to WOD
         : it
     ));
   const onRemoveSection = (i, s) =>
