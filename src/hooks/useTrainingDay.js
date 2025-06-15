@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from "react"; // Add useRef
-import { collection, getDocs, setDoc, doc, Timestamp } from "firebase/firestore";
+import { collection, getDocs, setDoc, doc, Timestamp, addDoc, deleteDoc } from "firebase/firestore"; // Add deleteDoc
 import { db } from "../firebase";
 
 export function normalizeDate(dateInput) {
@@ -89,6 +89,39 @@ export function useTrainingDay(initialDate) {
     setEditMode(true);
   };
 
+  const deleteTrainingDay = async (itemId) => {
+    if (!itemId || itemId.startsWith("new-local-")) {
+      // If it's a new, unsaved item, just remove it from local state
+      setEditData(prev => prev.filter(item => item.id !== itemId));
+      // If it was the only item and it's removed, exit edit mode
+      if (editData.length === 1 && editData[0].id === itemId) {
+        setEditMode(false);
+      }
+      return;
+    }
+
+    if (!window.confirm("Are you sure you want to delete this training day?")) {
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    try {
+      await deleteDoc(doc(db, "trainingDays", itemId));
+      // Refetch or update local state
+      setDay(prev => prev.filter(item => item.id !== itemId));
+      setEditData(prev => prev.filter(item => item.id !== itemId));
+      if (editData.filter(item => item.id !== itemId).length === 0 && day.filter(item => item.id !== itemId).length === 0) {
+        setEditMode(false); // Exit edit mode if no items are left
+      }
+    } catch (e) {
+      console.error("Failed to delete training day: ", e);
+      setError("Failed to delete training day.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     selectedDate, setSelectedDate,
     day, editData, setEditData,
@@ -96,6 +129,7 @@ export function useTrainingDay(initialDate) {
     loading, error,
     normalizeDate,
     saveTrainingDays,
-    addNewTrainingDay
+    addNewTrainingDay,
+    deleteTrainingDay // Export deleteTrainingDay
   };
 }

@@ -11,7 +11,8 @@ export default function TrainingDayDetails({ date }) {
     editMode, setEditMode,
     loading, error,
     normalizeDate, saveTrainingDays,
-    addNewTrainingDay
+    addNewTrainingDay,
+    deleteTrainingDay // Import deleteTrainingDay
   } = useTrainingDay(date);
 
   const onFieldChange = (i, field, val) =>
@@ -74,6 +75,7 @@ export default function TrainingDayDetails({ date }) {
           onSectionChange={onSectionChange}
           onAddSection={onAddSection}
           onRemoveSection={onRemoveSection}
+          onDeleteTrainingDay={deleteTrainingDay} // Pass deleteTrainingDay
         />
       )}
     </div>

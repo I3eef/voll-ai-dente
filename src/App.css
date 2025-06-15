@@ -216,6 +216,19 @@ button:disabled {
   background-color: #117a8b;
 }
 
+.delete-item-button {
+  background-color: #dc3545 !important; /* Important to override general button styles if needed */
+  color: white;
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  align-self: flex-end; /* Position it to the right or end of the form */
+  margin-top: 15px; /* Space above the button */
+}
+
+.delete-item-button:hover {
+  background-color: #c82333 !important;
+}
+
 p {
   text-align: center;
   font-size: 1.1rem;

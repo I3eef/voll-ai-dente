@@ -10,7 +10,8 @@ export default function TrainingDayForm({
   onFieldChange,
   onSectionChange,
   onAddSection,
-  onRemoveSection
+  onRemoveSection,
+  onDeleteTrainingDay // Add onDeleteTrainingDay to props
 }) {
   const [collapsedSections, setCollapsedSections] = useState({}); // { "itemIdx-sectionIdx": true/false }
 
@@ -109,6 +110,16 @@ export default function TrainingDayForm({
               rows={4}
             />
           </label>
+          {editMode && (
+            <button
+              type="button"
+              onClick={() => onDeleteTrainingDay(item.id)}
+              className="delete-item-button"
+              style={{ marginTop: '10px', backgroundColor: '#dc3545' }} // Basic styling
+            >
+              Delete Training Day
+            </button>
+          )}
         </form>
       ))}
     </>
