@@ -7,6 +7,71 @@ body {
   color: #333;
 }
 
+.app-container {
+  display: flex;
+  flex-direction: row; /* Changed from column to row */
+  min-height: 100vh;
+}
+
+.main-nav {
+  background-color: #333;
+  padding: 20px 10px; /* Adjusted padding */
+  display: flex;
+  flex-direction: column; /* Changed to column for vertical layout */
+  align-items: flex-start; /* Align items to the start (left) */
+  gap: 15px; /* Adjusted gap for vertical items */
+  width: 200px; /* Fixed width for the sidebar */
+  min-height: 100vh; /* Make sidebar full height */
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* Optional shadow for separation */
+}
+
+.main-nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+  padding: 10px 15px; /* Adjusted padding for better click area */
+  border-radius: 4px;
+  width: calc(100% - 30px); /* Make links take full available width minus padding */
+  box-sizing: border-box;
+}
+
+.main-nav a:hover,
+.main-nav a.active { 
+  background-color: #555;
+}
+
+.logout-button {
+  margin-top: auto; /* Pushes logout button to the bottom of the sidebar */
+  margin-left: 0; /* Reset margin-left */
+  width: calc(100% - 30px); /* Make button take full available width minus padding */
+  box-sizing: border-box;
+  background-color: #d9534f;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center; /* Center text in button */
+}
+
+.logout-button:hover {
+  background-color: #c9302c;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto; /* Add scroll if content overflows */
+}
+
+.app-loading-message,
+.access-denied-message {
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 30px;
+  color: #555;
+}
+
 .training-day-container {
   max-width: 800px;
   margin: 0 auto;
@@ -274,4 +339,76 @@ p {
   width: 100%;
   padding: 12px;
   font-size: 1.1rem;
+}
+
+.profile-container {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 25px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.profile-container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+.profile-form .form-group {
+  margin-bottom: 20px;
+}
+
+.profile-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #444;
+}
+
+.profile-form input[type="email"],
+.profile-form input[type="text"] {
+  width: calc(100% - 24px); /* Full width minus padding and border */
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.profile-form input[type="email"]:read-only {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+}
+
+.profile-form button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.profile-form button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.profile-form button[type="submit"]:disabled {
+  background-color: #a0cfff;
+}
+
+.success-message {
+  color: #155724;
+  background-color: #d4edda;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  border: 1px solid #c3e6cb;
+  text-align: center;
 }

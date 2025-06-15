@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useTrainingDay } from "../hooks/useTrainingDay";
 import TrainingDayForm from "./TrainingDayForm";
 
-export default function TrainingDayDetails({ date }) {
+export default function TrainingDayDetails({ date, user }) { // Add user to props
   const {
     selectedDate, setSelectedDate,
     day, editData, setEditData,
@@ -12,7 +12,7 @@ export default function TrainingDayDetails({ date }) {
     loading, error,
     normalizeDate, saveTrainingDays,
     addNewTrainingDay,
-    deleteTrainingDay // Import deleteTrainingDay
+    deleteTrainingDay
   } = useTrainingDay(date);
 
   const onFieldChange = (i, field, val) =>
@@ -26,7 +26,7 @@ export default function TrainingDayDetails({ date }) {
   const onAddSection = i =>
     setEditData(d => d.map((it, idx) =>
       idx === i
-        ? { ...it, sections: [...it.sections, { title: "WOD", content: "" }] } // Default title to WOD
+        ? { ...it, sections: [...it.sections, { title: "WOD", content: "", score: "" }] } // Add score field
         : it
     ));
   const onRemoveSection = (i, s) =>
@@ -40,7 +40,7 @@ export default function TrainingDayDetails({ date }) {
     <div className="training-day-container">
       {error && <div className="error-message">{error}</div>}
       <div className="controls">
-        <button onClick={addNewTrainingDay} disabled={loading}>Create New</button>
+        <button onClick={() => addNewTrainingDay(user.name)} disabled={loading}>Create New</button> {/* Pass user to addNewTrainingDay */}
         <label>
           Date:
           <DatePicker

@@ -49,8 +49,9 @@ export default function TrainingDayForm({
             <input
               type="text"
               value={item.createdBy || ""}
-              onChange={e => editMode && onFieldChange(idx, "createdBy", e.target.value)}
-              readOnly={!editMode}
+              readOnly // Make this field read-only
+              // onChange is removed as it's read-only
+              style={{ backgroundColor: editMode ? '#e9ecef' : 'transparent' }} // Indicate read-only state
             />
           </label>
           {/* Sections */}
@@ -101,6 +102,20 @@ export default function TrainingDayForm({
                         readOnly={!editMode}
                         rows={3}
                       />
+                      {editMode && (
+                        <input
+                          type="text"
+                          value={section.score || ""} // Bind to section.score
+                          onChange={e => onSectionChange(idx, sIdx, "score", e.target.value)} // Update score
+                          placeholder="Score / Result"
+                          style={{ marginTop: '10px' }} // Add some spacing
+                        />
+                      )}
+                      {!editMode && section.score && (
+                        <div className="section-score-display" style={{ marginTop: '10px', paddingTop: '5px', borderTop: '1px solid #eee'}}>
+                          <strong>Score:</strong> {section.score}
+                        </div>
+                      )}
                       {editMode && (
                         <button type="button" onClick={()=>onRemoveSection(idx,sIdx)}>
                           Remove Section

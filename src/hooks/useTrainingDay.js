@@ -20,7 +20,7 @@ export function useTrainingDay(initialDate) {
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const newItemIdCounterRef = useRef(0); // Correctly initialize the counter ref
+  const newItemIdCounterRef = useRef(0);
 
   const fetchTrainingDays = useCallback(async () => {
     setLoading(true); setError(null);
@@ -41,9 +41,9 @@ export function useTrainingDay(initialDate) {
 
   useEffect(() => { fetchTrainingDays() }, [fetchTrainingDays]);
   useEffect(() => {
-    setEditData(day.map(item => ({
+    setEditData(day.map(item=> ({
       ...item,
-      sections: item.sections ? [...item.sections] : []
+      sections: item.sections ? item.sections.map(sec => ({ ...sec, score: sec.score || "" })) : []
     })));
   }, [day]);
 
@@ -75,14 +75,15 @@ export function useTrainingDay(initialDate) {
     }
   };
 
-  const addNewTrainingDay = () => {
+  const addNewTrainingDay = (currentUser) => {
     const counter = newItemIdCounterRef.current;
     newItemIdCounterRef.current += 1;
-    const tempId = `new-local-${counter}`; // Use the counter for a unique ID
+    const tempId = `new-local-${counter}`;
+    const createdBy = currentUser || "Unknown User"; // Reverted to try displayName, then email
 
     setEditData(prev => [
       ...prev,
-      { id: tempId, date: selectedDate, createdBy: "", sections: [], notes: "" }
+      { id: tempId, date: selectedDate, createdBy: createdBy, sections: [], notes: "" }
     ]);
     setEditMode(true);
   };
