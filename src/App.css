@@ -1,414 +1,315 @@
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   margin: 0;
-  padding: 20px;
-  background-color: #f4f7f6;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f4f7f6; /* Light background for the body */
   color: #333;
+  line-height: 1.6;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+/* Add a viewport meta tag to your public/index.html or equivalent:
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+*/
+
+/* App Container and Layout */
 .app-container {
   display: flex;
-  flex-direction: row; /* Changed from column to row */
+  flex-direction: row;
   min-height: 100vh;
+  position: relative; /* For mobile nav positioning */
 }
 
+/* Main Navigation - Desktop (Sidebar) */
 .main-nav {
-  background-color: #333;
-  padding: 20px 10px; /* Adjusted padding */
+  background-color: #2c3e50; /* Darker, more modern sidebar color */
+  padding: 20px 10px;
   display: flex;
-  flex-direction: column; /* Changed to column for vertical layout */
-  align-items: flex-start; /* Align items to the start (left) */
-  gap: 15px; /* Adjusted gap for vertical items */
-  width: 200px; /* Fixed width for the sidebar */
-  min-height: 100vh; /* Make sidebar full height */
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* Optional shadow for separation */
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  width: 220px; /* Slightly wider sidebar */
+  min-height: 100vh;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease-in-out; /* For mobile slide-in */
+  z-index: 100; /* Ensure nav is above content for mobile */
 }
 
 .main-nav a {
-  color: white;
+  color: #ecf0f1; /* Lighter link color for contrast */
   text-decoration: none;
   font-size: 1.1rem;
-  padding: 10px 15px; /* Adjusted padding for better click area */
-  border-radius: 4px;
-  width: calc(100% - 30px); /* Make links take full available width minus padding */
+  padding: 12px 20px; /* More padding */
+  border-radius: 5px;
+  width: calc(100% - 40px);
   box-sizing: border-box;
+  transition: background-color 0.2s ease;
 }
 
 .main-nav a:hover,
 .main-nav a.active { 
-  background-color: #555;
+  background-color: #34495e; /* Slightly different hover */
+  color: #fff;
 }
 
 .logout-button {
-  margin-top: auto; /* Pushes logout button to the bottom of the sidebar */
-  margin-left: 0; /* Reset margin-left */
-  width: calc(100% - 30px); /* Make button take full available width minus padding */
+  margin-top: auto;
+  width: calc(100% - 40px);
   box-sizing: border-box;
-  background-color: #d9534f;
+  background-color: #e74c3c; /* Softer red */
   color: white;
-  padding: 10px 15px;
+  padding: 12px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
-  text-align: center; /* Center text in button */
+  text-align: center;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
 }
 
 .logout-button:hover {
-  background-color: #c9302c;
+  background-color: #c0392b;
 }
 
+/* Main Content Area */
 .main-content {
   flex-grow: 1;
   padding: 20px;
-  overflow-y: auto; /* Add scroll if content overflows */
+  overflow-y: auto;
+  background-color: #fff; /* White background for content area */
 }
 
-.app-loading-message,
-.access-denied-message {
-  text-align: center;
-  font-size: 1.2rem;
+/* Mobile Navigation Styles */
+.mobile-nav-toggle {
+  display: none; /* Hidden on desktop */
+  position: fixed; /* Or absolute, depending on layout */
+  top: 15px;
+  left: 15px;
+  z-index: 1001; /* Above everything */
+  background-color: #34495e;
+  color: white;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column; /* Stack nav and content on mobile */
+  }
+
+  .main-nav {
+    position: fixed; /* Or absolute */
+    top: 0;
+    left: 0;
+    width: 250px; /* Width of the slide-out menu */
+    height: 100%;
+    transform: translateX(-100%); /* Hidden off-screen by default */
+    box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+  }
+
+  .main-nav.mobile-nav-open {
+    transform: translateX(0); /* Slide in when open */
+  }
+
+  .mobile-nav-toggle {
+    display: block; /* Show hamburger on mobile */
+  }
+
+  .main-content {
+    padding-top: 60px; /* Add padding to prevent content from being hidden by fixed header/toggle */
+  }
+  
+  /* Adjust app container when mobile nav is active to prevent content interaction */
+  .app-container.mobile-nav-active .main-content {
+    /* Optional: Add an overlay or disable pointer events on main content when nav is open */
+    /* pointer-events: none; */
+    /* opacity: 0.7; */
+  }
+}
+
+
+/* General Form Styling Improvements */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+textarea,
+select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #bdc3c7; /* Softer border color */
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: #3498db; /* Highlight on focus */
+  outline: none;
+}
+
+button, .button-like {
+  padding: 10px 18px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+button:hover, .button-like:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Specific button styles (can be overridden) */
+.primary-button {
+  background-color: #3498db;
+  color: white;
+}
+.primary-button:hover {
+  background-color: #2980b9;
+}
+
+.danger-button {
+  background-color: #e74c3c;
+  color: white;
+}
+.danger-button:hover {
+  background-color: #c0392b;
+}
+
+/* Responsive adjustments for forms and other elements */
+@media (max-width: 768px) {
+  .controls button, .controls label {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .controls input[type="date"] {
+    width: calc(100% - 24px); /* Adjust for padding */
+  }
+
+  .training-day-form .item-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .training-day-form .item-header label {
+    margin-bottom: 5px;
+  }
+  .training-day-form .item-header input {
+    width: 100%;
+  }
+
+  .section-header {
+    /* Consider if section titles need to wrap or be truncated on small screens */
+  }
+}
+
+/* Ensure .section-title-select and .section-title-view behave well */
+.section-title-select, .section-title-view {
+    flex-grow: 1;
+    margin-right: 10px; /* Space before delete icon */
+    /* Add min-width if necessary to prevent too much squishing */
+    min-width: 100px; 
+}
+
+/* Login Page Specifics */
+.login-container {
+  max-width: 400px;
+  margin: 50px auto;
   padding: 30px;
-  color: #555;
-}
-
-.training-day-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #fff;
+  background: #fff;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
+/* Profile Page Specifics */
+.profile-container {
+  max-width: 550px; /* Slightly wider */
+}
+
+/* Workout Backlog Page Specifics */
+.workout-backlog-container {
+  max-width: 95%; /* Allow more width on larger screens */
+  margin: 20px auto;
+}
+
+.backlog-card-actions {
+  flex-wrap: wrap; /* Allow buttons to wrap on small screens */
+}
+
+.backlog-card-actions button {
+  margin-bottom: 5px; /* Space if they wrap */
+}
+
+/* Utility Classes */
+.text-center {
+  text-align: center;
+}
+.error-message {
+  color: #c0392b; /* Consistent error color */
+  background-color: #fdd;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  border: 1px solid #fbb;
+}
+
+.success-message {
+  color: #27ae60;
+  background-color: #e6ffed;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  border: 1px solid #b3ffc6;
+}
+
+/* ... any other existing styles ... */
+
+/* Ensure TrainingDayDetails controls are responsive */
 .controls {
   display: flex;
+  flex-wrap: wrap; /* Allow controls to wrap on smaller screens */
+  gap: 10px;
+  margin-bottom: 20px;
   align-items: center;
-  gap: 15px;
-  margin-bottom: 25px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #eee;
-  flex-wrap: wrap;
 }
 
 .controls label {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.9rem;
-  color: #555;
+  gap: 5px;
 }
 
-.react-datepicker-wrapper input {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 0.9rem;
+/* Adjustments for TrainingDayForm */
+.training-day-form .item-header label input[type="date"] {
+    width: auto; /* Let the date input size itself naturally within the flex layout */
 }
 
-button {
-  padding: 10px 18px;
-  font-size: 0.95rem;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  background-color: #007bff;
-  color: white;
-  transition: background-color 0.2s ease-in-out;
+.training-day-form .item-header {
+    display: flex;
+    flex-wrap: wrap; /* Allow header items to wrap */
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 15px;
 }
 
-button:hover {
-  background-color: #0056b3;
-}
-
-button:disabled {
-  background-color: #cce0ff;
-  cursor: not-allowed;
-}
-
-.controls button:nth-of-type(2) { /* Edit/View button */
-  background-color: #6c757d;
-}
-.controls button:nth-of-type(2):hover {
-  background-color: #545b62;
-}
-
-.controls button:nth-of-type(3) { /* Save button */
-  background-color: #28a745;
-}
-.controls button:nth-of-type(3):hover {
-  background-color: #1e7e34;
-}
-
-
-.error-message {
-  background-color: #f8d7da;
-  color: #721c24;
-  padding: 12px;
-  border: 1px solid #f5c6cb;
-  border-radius: 4px;
-  margin-bottom: 20px;
-}
-
-.training-day-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 15px;
-  border: 1px solid #e0e0e0;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  background-color: #fdfdfd;
-}
-
-.training-day-form h2 {
-  margin-top: 0;
-  color: #007bff;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
-}
-
-.training-day-form label {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-weight: bold;
-  font-size: 0.9rem;
-  color: #444;
-}
-
-.training-day-form input[type="text"],
-.training-day-form textarea {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-  width: calc(100% - 22px); /* Account for padding and border */
-}
-
-.training-day-form input[type="text"]:read-only,
-.training-day-form textarea:read-only {
-  background-color: #e9ecef;
-  cursor: default;
-}
-
-.training-day-form textarea {
-  min-height: 60px;
-  resize: vertical;
-}
-
-.sections-container {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  padding: 15px;
-  border: 1px dashed #d1d1d1;
-  border-radius: 4px;
-  background-color: #f9f9f9;
-}
-
-.sections-container > label { /* "Sections:" label */
-  font-weight: bold;
-  margin-bottom: 0;
-}
-
-.section-item {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 15px;
-  border: 1px solid #e7e7e7;
-  border-radius: 4px;
-  background-color: #fff;
-  transition: all 0.3s ease-in-out; /* Added for smooth collapse */
-}
-
+/* Ensure section headers in TrainingDayForm are also responsive */
 .section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  padding-bottom: 10px; /* Add some padding */
-  border-bottom: 1px solid #f0f0f0; /* Separator for header */
-  margin-bottom: 10px; /* Space before content */
-}
-
-.section-header input[type="text"] {
-  flex-grow: 1;
-  margin-right: 10px;
-  border: none; /* Make title look less like an input when not editing */
-  font-size: 1.1rem;
-  font-weight: bold;
-  padding: 5px 0; /* Adjust padding */
-}
-
-.section-header input[type="text"]:read-only {
-  background-color: transparent;
-  cursor: default; /* Ensure default cursor for read-only titles */
-}
-
-.section-header select {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: white;
-  font-weight: bold;
-}
-
-.section-header span { /* For the [+] [-] icon */
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: #007bff;
-}
-
-.section-content {
-  /* Styles for the content area if needed, for now it will just show/hide */
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.section-item.collapsed .section-content {
-  display: none;
-}
-
-.section-item.collapsed {
-  padding-bottom: 10px; /* Adjust padding when collapsed */
-  gap: 0; /* No gap when content is hidden */
-}
-
-.section-item.collapsed .section-header {
-  margin-bottom: 0; /* No margin when content is hidden */
-  border-bottom: none; /* No border when content is hidden */
-}
-
-.sections-container > button { /* Add Section button */
-  background-color: #17a2b8;
-  align-self: flex-start;
-}
-.sections-container > button:hover {
-  background-color: #117a8b;
-}
-
-.delete-item-button {
-  background-color: #dc3545 !important; /* Important to override general button styles if needed */
-  color: white;
-  padding: 8px 15px;
-  font-size: 0.9rem;
-  align-self: flex-end; /* Position it to the right or end of the form */
-  margin-top: 15px; /* Space above the button */
-}
-
-.delete-item-button:hover {
-  background-color: #c82333 !important;
-}
-
-p {
-  text-align: center;
-  font-size: 1.1rem;
-  color: #666;
-  padding: 20px;
-}
-
-/* Login Form Specifics (if you have one with these classes) */
-.login-container {
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 30px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.login-container h2 {
-  color: #333;
-  margin-bottom: 25px;
-}
-
-.login-container input[type="email"],
-.login-container input[type="password"] {
-  width: calc(100% - 24px); /* Account for padding and border */
-  padding: 12px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.login-container button {
-  width: 100%;
-  padding: 12px;
-  font-size: 1.1rem;
-}
-
-.profile-container {
-  max-width: 600px;
-  margin: 30px auto;
-  padding: 25px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.profile-container h2 {
-  text-align: center;
-  color: #333;
-  margin-bottom: 25px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 15px;
-}
-
-.profile-form .form-group {
-  margin-bottom: 20px;
-}
-
-.profile-form label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-  color: #444;
-}
-
-.profile-form input[type="email"],
-.profile-form input[type="text"] {
-  width: calc(100% - 24px); /* Full width minus padding and border */
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-}
-
-.profile-form input[type="email"]:read-only {
-  background-color: #f0f0f0;
-  cursor: not-allowed;
-}
-
-.profile-form button[type="submit"] {
-  width: 100%;
-  padding: 12px;
-  font-size: 1.1rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.profile-form button[type="submit"]:hover {
-  background-color: #0056b3;
-}
-
-.profile-form button[type="submit"]:disabled {
-  background-color: #a0cfff;
-}
-
-.success-message {
-  color: #155724;
-  background-color: #d4edda;
-  padding: 12px;
-  border-radius: 4px;
-  margin-bottom: 20px;
-  border: 1px solid #c3e6cb;
-  text-align: center;
+    display: flex;
+    align-items: center;
+    /* flex-wrap: wrap; */ /* Usually not desired for section headers, but an option */
+    gap: 5px; /* Reduce gap slightly if needed */
 }

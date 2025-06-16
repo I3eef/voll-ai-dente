@@ -62,7 +62,8 @@ export default function TrainingDayForm({
               const isCollapsed = isSectionCollapsed(idx, sIdx);
               return (
                 <div key={sIdx} className={`section-item ${isCollapsed ? 'collapsed' : ''}`}>
-                  <div className="section-header" onClick={() => toggleSectionCollapse(idx, sIdx)} style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px 0' }}>
+                  <div className="section-header" onClick={() => toggleSectionCollapse(idx, sIdx)}>
+                    <span className="collapse-indicator">{isCollapsed ? '[+]' : '[-]'}</span>
                     {editMode ? (
                       <select
                         value={section.title}
@@ -70,8 +71,8 @@ export default function TrainingDayForm({
                           e.stopPropagation();
                           onSectionChange(idx, sIdx, "title", e.target.value);
                         }}
-                        onClick={(e) => e.stopPropagation()} // Prevent toggle when clicking select
-                        style={{ flexGrow: 1, marginRight: '10px', fontSize: '1.1rem', padding: '5px' }}
+                        onClick={(e) => e.stopPropagation()} 
+                        className="section-title-select"
                       >
                         {sectionTitleOptions.map(option => (
                           <option key={option} value={option}>{option}</option>
@@ -84,14 +85,19 @@ export default function TrainingDayForm({
                         )}
                       </select>
                     ) : (
-                      <input
-                        type="text"
-                        value={section.title || ""}
-                        readOnly
-                        style={{ flexGrow: 1, marginRight: '10px', border: 'none', backgroundColor: 'transparent', fontSize: '1.1rem', fontWeight: 'bold' }}
-                      />
+                      <span className="section-title-view">{section.title || "Section"}</span>
                     )}
-                    <span>{isCollapsed ? '[+]' : '[-]'}</span>
+                    {editMode && (
+                      <span 
+                        className="delete-section-icon"
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent collapse when clicking delete
+                          onRemoveSection(idx, sIdx);
+                        }}
+                      >
+                        🗑️
+                      </span>
+                    )}
                   </div>
                   {!isCollapsed && (
                     <div className="section-content">
@@ -105,10 +111,10 @@ export default function TrainingDayForm({
                       {editMode && (
                         <input
                           type="text"
-                          value={section.score || ""} // Bind to section.score
-                          onChange={e => onSectionChange(idx, sIdx, "score", e.target.value)} // Update score
+                          value={section.score || ""} 
+                          onChange={e => onSectionChange(idx, sIdx, "score", e.target.value)} 
                           placeholder="Score / Result"
-                          style={{ marginTop: '10px' }} // Add some spacing
+                          style={{ marginTop: '10px' }} 
                         />
                       )}
                       {!editMode && section.score && (
@@ -116,11 +122,7 @@ export default function TrainingDayForm({
                           <strong>Score:</strong> {section.score}
                         </div>
                       )}
-                      {editMode && (
-                        <button type="button" onClick={()=>onRemoveSection(idx,sIdx)}>
-                          Remove Section
-                        </button>
-                      )}
+                      {/* Remove Section button is now an icon in the header */}
                     </div>
                   )}
                 </div>
