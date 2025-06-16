@@ -254,62 +254,88 @@ button:hover, .button-like:hover {
   margin-bottom: 5px; /* Space if they wrap */
 }
 
-/* Utility Classes */
-.text-center {
-  text-align: center;
-}
-.error-message {
-  color: #c0392b; /* Consistent error color */
-  background-color: #fdd;
-  padding: 10px;
-  border-radius: 4px;
-  margin-bottom: 15px;
-  border: 1px solid #fbb;
-}
-
-.success-message {
-  color: #27ae60;
-  background-color: #e6ffed;
-  padding: 10px;
-  border-radius: 4px;
-  margin-bottom: 15px;
-  border: 1px solid #b3ffc6;
-}
-
-/* ... any other existing styles ... */
-
-/* Ensure TrainingDayDetails controls are responsive */
-.controls {
+/* Edit Functionality in WorkoutBacklogPage */
+.backlog-form .form-actions {
+  margin-top: 20px;
   display: flex;
-  flex-wrap: wrap; /* Allow controls to wrap on smaller screens */
   gap: 10px;
-  margin-bottom: 20px;
-  align-items: center;
 }
 
-.controls label {
-  display: flex;
-  align-items: center;
-  gap: 5px;
+.cancel-edit-button {
+  background-color: #7f8c8d; /* Neutral gray */
+  color: white;
+}
+.cancel-edit-button:hover {
+  background-color: #606f70;
 }
 
-/* Adjustments for TrainingDayForm */
-.training-day-form .item-header label input[type="date"] {
-    width: auto; /* Let the date input size itself naturally within the flex layout */
+.backlog-card-details {
+  margin-top: 10px;
+  margin-bottom: 15px;
+  padding-left: 10px;
+  border-left: 3px solid #ecf0f1; /* Light border to indent details */
 }
 
-.training-day-form .item-header {
-    display: flex;
-    flex-wrap: wrap; /* Allow header items to wrap */
-    gap: 15px;
-    align-items: center;
-    margin-bottom: 15px;
+.backlog-card-section {
+  margin-bottom: 10px;
 }
 
-/* Ensure section headers in TrainingDayForm are also responsive */
-.section-header {
-    display: flex;
-    align-items: center;
-    /* flex-wrap: wrap; */ /* Usually not desired for section headers, but an option */
-    gap: 5px; /* Reduce gap slightly if needed */
+.backlog-card-section strong {
+  color: #34495e; /* Darker color for section titles */
 }
+
+.backlog-card-section .section-content-display {
+  white-space: pre-wrap; /* Preserve line breaks in content */
+  word-break: break-word; /* Prevent long words from overflowing */
+  margin-top: 3px;
+  margin-bottom: 5px;
+  background-color: #fdfdfd; /* Very light background for content block */
+  padding: 5px 8px;
+  border-radius: 3px;
+  font-size: 0.95rem;
+}
+
+.backlog-card-section .section-score-display {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 3px;
+}
+
+.workout-meta {
+  font-size: 0.8rem;
+  color: #777;
+  margin-bottom: 3px;
+}
+
+.backlog-card-actions .edit-button {
+  background-color: #f39c12; /* Orange for edit */
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.backlog-card-actions .edit-button:hover {
+  background-color: #e67e22;
+}
+
+/* Ensure App.css empty rulesets are addressed */
+.app-container.mobile-nav-active .main-content {
+  /* Example: Add an overlay or disable pointer events on main content when nav is open */
+  /* pointer-events: none; */
+  /* opacity: 0.7; */
+  /* No specific style needed if only using transform on nav */
+}
+
+/* General section header styling (if one exists outside specific components) */
+/* .section-header { */
+  /* This might be a general class you intended to style */
+  /* If not, it can be removed if it was the source of the lint error */
+/* } */
+
+/* Remove the specific empty .section-header rule if it was at line 215 and not needed */
+/* For example, if it was: */
+/* .section-header {} */
+/* Just delete those lines */
