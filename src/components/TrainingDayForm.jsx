@@ -14,7 +14,7 @@ export default function TrainingDayForm({
   onDeleteTrainingDay
 }) {
   const [collapsedSections, setCollapsedSections] = useState({});
-  const sectionTitleOptions = ["WOD", "Warmup", "Mobility", "Skill", "Gymnastic", "Other"];
+  const sectionTitleOptions = ["WOD", "Warmup", "Mobility", "Skill", "Gymnastic", "Other", "Strenght", "Olympic", "Cardio", "Conditioning", "Accessory", "Core", "Cool Down"];
 
   const toggleSectionCollapse = (itemIdx, sectionIdx) => {
     const key = `${itemIdx}-${sectionIdx}`;

@@ -18,7 +18,7 @@ export default function WorkoutBacklogPage() {
   const [workoutSections, setWorkoutSections] = useState([{ title: 'WOD', content: '', score: '' }]);
   const [message, setMessage] = useState('');
 
-  const sectionTitleOptions = ["WOD", "Warmup", "Mobility", "Skill", "Gymnastic", "Other"];
+  const sectionTitleOptions = ["WOD", "Warmup", "Mobility", "Skill", "Gymnastic", "Other", "Strenght", "Olympic", "Cardio", "Conditioning", "Accessory", "Core", "Cool Down"];
 
   // Effect to populate form when currentWorkout changes (for editing)
   useEffect(() => {
