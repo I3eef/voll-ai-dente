@@ -62,7 +62,9 @@ export function useTrainingDay(initialDate) {
           const finalPayload = { ...dataToSave, date: Timestamp.fromDate(raw), id: newDocRef.id }; 
           await setDoc(newDocRef, finalPayload);
         } else {
-          const payload = { ...item, date: Timestamp.fromDate(raw) }; 
+          // For existing documents, remove ID from payload before saving
+          const { id, ...dataToSave } = item;
+          const payload = { ...dataToSave, date: Timestamp.fromDate(raw) }; 
           await setDoc(doc(db, "trainingDays", item.id), payload, { merge: true });
         }
       }
@@ -83,16 +85,29 @@ export function useTrainingDay(initialDate) {
     newItemIdCounterRef.current += 1;
     const tempId = `new-local-${counter}`;
     
-    // Prioritize displayName from auth.currentUser, then from prop, then email, then fallback
     let createdBy = firebaseAuthCurrentUser?.displayName || 
                     userProp?.displayName || 
                     firebaseAuthCurrentUser?.email || 
                     userProp?.email || 
                     "Unknown User";
 
+    const createdByUid = firebaseAuthCurrentUser?.uid; // Get the UID
+
+    if (!createdByUid) {
+      setError("Cannot create a new training day without a user UID.");
+      return;
+    }
+
     setEditData(prev => [
       ...prev,
-      { id: tempId, date: selectedDate, createdBy: createdBy, sections: [], notes: "" }
+      {
+        id: tempId, 
+        date: selectedDate, 
+        createdBy: createdBy, 
+        createdByUid: createdByUid, // Add the UID to the object
+        sections: [], 
+        notes: ""
+      }
     ]);
     setEditMode(true);
   };
