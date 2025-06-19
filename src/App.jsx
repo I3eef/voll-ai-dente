@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import TrainingDayDetails from "./components/TrainingDayDetails";
 import ProfilePage from "./components/ProfilePage";
 import WorkoutBacklogPage from "./components/WorkoutBacklogPage";
+import AppImprovements from "./components/AppImprovements";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -75,9 +76,11 @@ function App() {
         )}
         {user && (
           <nav className={`main-nav ${isMobileNavOpen ? 'mobile-nav-open' : ''}`}>
-            <Link to="/" onClick={() => setIsMobileNavOpen(false)}>Home</Link>
-            <Link to="/profile" onClick={() => setIsMobileNavOpen(false)}>Profile</Link>
+            <Link to="/" onClick={() => setIsMobileNavOpen(false)}>Today</Link>
             <Link to="/workout-backlog" onClick={() => setIsMobileNavOpen(false)}>Workout Backlog</Link>
+            <Link to="/app-improvements" onClick={() => setIsMobileNavOpen(false)}>App Improvements</Link>
+            <Link to="/profile" onClick={() => setIsMobileNavOpen(false)}>Profile</Link>
+            
             <button onClick={handleLogout} className="logout-button">Logout</button>
           </nav>
         )}
@@ -95,8 +98,13 @@ function App() {
                 ) : (
                   <Route path="/" element={<p className="access-denied-message">Access denied. You can update your profile.</p>} />
                 )}
-                <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/workout-backlog" element={<WorkoutBacklogPage />} /> {/* Add route for backlog */}
+                {
+                  // Placeholder for future app improvements page
+                  // <Route path="/app-improvements" element={<AppImprovementsPage />} />
+                  <Route path="/app-improvements" element={<AppImprovements/>} />
+                }
+                <Route path="/profile" element={<ProfilePage />} />
                  {/* Fallback for logged-in users if no other route matches */}
                 {!authorized && <Route path="*" element={<Navigate to="/profile" replace />} />}
                 {authorized && <Route path="*" element={<Navigate to="/" replace />} />}

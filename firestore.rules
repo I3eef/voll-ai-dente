@@ -27,5 +27,17 @@ service cloud.firestore {
       // Allows a user to update or delete a workout only if their UID matches 'createdByUid'
       allow update, delete: if request.auth != null && request.auth.uid == resource.data.createdByUid;
     }
+
+        // Rules for 'appImprovements' collection
+    match /appImprovements/{improvementId} {
+      // Allows any authenticated user to read all appImprovements
+      allow read: if request.auth != null; 
+      
+      // Allows any authenticated user to create appImprovements
+      allow create: if request.auth != null; 
+      
+      // Allows a user to update or delete a appImprovements
+      allow update, delete: if request.auth != null;
+    }
   }
 }
